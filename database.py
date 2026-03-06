@@ -25,11 +25,11 @@ def main():
     userInput = userInput.strip() #removes leading/trailing spaces for accurate indexing
     words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     
-    if words[0] == "SET":
+    if words[0].upper() == "SET": #upper is used to make sure if people type any command in lowercase the program still recognizes the intent of the user
       set = True
-    elif words[0] == "GET":
+    elif words[0].upper() == "GET":
       get = True
-    elif words[0] == "EXIT":
+    elif words[0].upper() == "EXIT":
       print("Exiting")
       break;
     else:
