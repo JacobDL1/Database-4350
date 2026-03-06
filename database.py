@@ -62,6 +62,8 @@ def main():
       
       with open(file, "a") as f: #opens and writes to data.db
         f.write(f"SET {key} {value}\n")
+        f.flush() #used for making sure SET is complete by the time GET is used for gradebot
+        os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
 
       print("OK") #confirmation of SET command's success
     
