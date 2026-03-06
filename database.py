@@ -8,7 +8,15 @@ def main():
     with open(file, "r") as f:
       for i in f:
         dbEntry = i.strip().split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
-        dbValues.append([dbEntry[1], dbEntry[2]]) #dbEntry[0] is SET, so following key value pairs and index 1 and 2 is appended to dbValues
+        importDuplicate = False #tracks if duplicate entry is found while importing data.db information into dbValues
+
+        for j in dbValues: #compares key value of new line from data.db stored in dbEntry to those already in dbValues, ensuring that any duplicates from data.db are rooted out
+          if j[0] == dbEntry[1]:
+            j[1] = dbEntry[2]
+            importDuplicate = True
+            break
+        if not importDuplicate:
+          dbValues.append([dbEntry[1], dbEntry[2]]) #dbEntry[0] is SET, so following key value pairs and index 1 and 2 is appended to dbValues
   
   while(True): #continues looping until broken allowing for contuninous input
     set = False #tracks if user typed set
@@ -35,7 +43,7 @@ def main():
       key = words[1]
       value = words[2]
       
-      for i in dbValues:
+      for i in dbValues: #checks if new key is already present in dbValues, and updates key's value in dbValues if there is a duplicate
         if i[0] == key:
           i[1] = value
           duplicate = True
@@ -51,7 +59,7 @@ def main():
       key = words[1]
       foundValue = "";
       
-      for i in dbValues:
+      for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
         if i[0] == key:
           foundValue = (i[1])
       if foundValue == "":
