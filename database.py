@@ -23,7 +23,10 @@ def main():
   while(True): #continues looping until broken allowing for contuninous input
     set = False #tracks if user typed set
     get = False #tracks if user typed get
-    userInput = input()
+    try:
+      userInput = input()
+    except EOFError:
+      break
     userInput = userInput.strip() #removes leading/trailing spaces for accurate indexing
     words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     
