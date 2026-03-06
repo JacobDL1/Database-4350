@@ -3,7 +3,7 @@ import sys #used for sys.stoud.flush(), addressed gradebot issue
 
 file = "data.db" #used to reference data.db later
 
-def loadDB(dbValues):
+def loadDB(dbValues): #reads from data.db and takes any infromation present and uses it to rebuild the in-memory index (dbValues)
   if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
     with open(file, "r") as f:
       for i in f:
@@ -22,7 +22,7 @@ def loadDB(dbValues):
         if not duplicate:
           dbValues.append([dbEntry[1].strip(), dbEntry[2].strip()]) #dbEntry[0] is SET, so following key value pairs and index 1 and 2 is appended to dbValues
 
-def setKeyValue(dbValues, key, value):
+def setKeyValue(dbValues, key, value): #if the user types SET, stores following two terms as a key value pair in both dbValues and data.db
   duplicate = False
   for i in dbValues: #checks if new key is already present in dbValues, and updates key's value in dbValues if there is a duplicate
     if i[0] == key:
@@ -39,7 +39,7 @@ def setKeyValue(dbValues, key, value):
     os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
   print("OK") #confirmation of SET command's success
 
-def getKeyValue(dbValues, key):
+def getKeyValue(dbValues, key): #if the user types GET, searched through dbValues for the user specified key and returns the corresponding value if the key is found
   foundValue = ""
   
   for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
@@ -48,7 +48,7 @@ def getKeyValue(dbValues, key):
   if foundValue != "":
     print(foundValue)
 
-def main():
+def main(): #main loop for taking in user input and calling the necessary functions to respond
   dbValues = [] #stores all set command key value pairs for faster searching when using get
   loadDB(dbValues)
   
