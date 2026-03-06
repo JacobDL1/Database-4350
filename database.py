@@ -9,6 +9,10 @@ def main():
     with open(file, "r") as f:
       for i in f:
         dbEntry = i.strip().split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
+
+        if len(dbEntry) < 3: #skip empty or miswritten lines from gradebot
+          continue
+        
         importDuplicate = False #tracks if duplicate entry is found while importing data.db information into dbValues
 
         for j in dbValues: #compares key value of new line from data.db stored in dbEntry to those already in dbValues, ensuring that any duplicates from data.db are rooted out
