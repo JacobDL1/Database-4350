@@ -58,6 +58,8 @@ def main():
       
       with open(file, "a") as f: #opens and writes to data.db
         f.write(f"SET {key} {value}\n")
+
+      print("OK") #confirmation of SET command's success
     
     elif (get): #if user used GET, key is searched for in dbValues and returned if found
       key = words[1]
