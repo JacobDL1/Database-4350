@@ -32,7 +32,6 @@ def main():
     elif words[0].upper() == "GET":
       get = True
     elif words[0].upper() == "EXIT":
-      print("Exiting")
       break;
     else:
       print("Invalid command entered")
