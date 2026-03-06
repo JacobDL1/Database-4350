@@ -67,8 +67,6 @@ def main():
       getKeyValue(dbValues, words[1].strip())
     elif words[0].upper() == "EXIT":
       break
-    else:
-      print("Invalid command entered")
       
     sys.stdout.flush()
           
