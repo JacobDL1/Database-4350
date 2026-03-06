@@ -31,10 +31,14 @@ def main():
         f.write(f"SET {key} {value}\n")
     elif (get): #if user used GET, key is searched for in dbValues and returned if found
       key = words[1]
+      foundValue = "";
       for i in dbValues:
-        if i == key:
-          print(i[1])
-      print("No such value found in database")
+        if i[0] == key:
+          foundValue = (i[1])
+      if foundValue == "":
+        print("No such value found in database")
+      else:
+        print(foundValue)
           
 
 if __name__ == "__main__":
