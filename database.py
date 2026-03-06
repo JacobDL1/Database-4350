@@ -1,14 +1,21 @@
+import os #used for os.path.exists method that updates dbValues to have all entries data.db does
+
 def main():
   file = "data.db" #used to reference data.db later
   dbValues = [] #stores all set command key value pairs for faster searching when using get
-  
+
+  if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
+    with open(file, "r") as f:
+      for i in f:
+        dbEntry = i.strip().split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
+        dbValues.append([dbEntry[1], dbEntry[2]]) #dbEntry[0] is SET, so following key value pairs and index 1 and 2 is appended to dbValues
   
   while(True): #continues looping until broken allowing for contuninous input
     set = False #tracks if user typed set
     get = False #tracks if user typed get
     userInput = input()
     userInput = userInput.strip() #removes leading/trailing spaces for accurate indexing
-    words = userInput.split() #splits userInput into its individual words
+    words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     if words[0] == "SET":
       set = True
     elif words[0] == "GET":
