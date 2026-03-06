@@ -48,8 +48,8 @@ def main():
     duplicate = False #used to track if a SET request's key already exists
     
     if (set): #if  user used SET, key value pair is appended to dbValues and written to data.db, and if key is a duplicate, existing key has its value changed to new SET request's value
-      key = words[1]
-      value = words[2]
+      key = words[1].strip()
+      value = words[2].strip()
       
       for i in dbValues: #checks if new key is already present in dbValues, and updates key's value in dbValues if there is a duplicate
         if i[0] == key:
