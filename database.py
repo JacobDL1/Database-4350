@@ -61,7 +61,7 @@ def main():
     
     elif (get): #if user used GET, key is searched for in dbValues and returned if found
       key = words[1]
-      foundValue = "";
+      foundValue = ""
       
       for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
         if i[0] == key:
