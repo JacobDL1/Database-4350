@@ -14,7 +14,7 @@ def main():
     elif words[0] == "GET":
       get = True
     elif words[0] == "EXIT":
-      print(exiting)
+      print("Exiting")
       break;
     else:
       print("Invalid command entered")
@@ -23,18 +23,18 @@ def main():
     value = ""
     
     if (set): #if  user used SET, key value pair is appended to dbValues and written to data.db
-      words[1] = key
-      words[2] = value
+      key = words[1]
+      value = words[2]
       dbValues.append([key, value])
       
-      with open(DB_FILE, "a") as f: #opens and writes to data.db
+      with open(file, "a") as f: #opens and writes to data.db
         f.write(f"SET {key} {value}\n")
     elif (get): #if user used GET, key is searched for in dbValues and returned if found
-      words[1] = key
+      key = words[1]
       for i in dbValues:
         if i == key:
-          return i[1]
-      return "No such value found in database"
+          print(i[1])
+      print("No such value found in database")
           
 
 if __name__ == "__main__":
