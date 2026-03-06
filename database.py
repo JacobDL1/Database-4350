@@ -63,10 +63,9 @@ def main():
       for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
         if i[0] == key:
           foundValue = (i[1])
-      if foundValue == "":
-        print("NULL")
-      else:
+      if foundValue != "":
         print(foundValue)
+
         
     sys.stdout.flush()
           
