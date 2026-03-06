@@ -2,8 +2,7 @@ import os #used for os.path.exists method that updates dbValues to have all entr
 import sys #used for sys.stoud.flush(), addressed gradebot issue
 
 def main():
-  scriptDir = os.path.dirname(os.path.abspath(__file__)) #fix to gradebot not grading correctly
-  file = os.path.join(scriptDir, "data.db") #used to reference data.db later
+  file = "data.db" #used to reference data.db later
   dbValues = [] #stores all set command key value pairs for faster searching when using get
 
   if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
