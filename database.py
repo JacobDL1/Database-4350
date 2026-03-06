@@ -1,4 +1,5 @@
 import os #used for os.path.exists method that updates dbValues to have all entries data.db does
+import sys #used for sys.stoud.flush(), addressed gradebot issue
 
 def main():
   file = "data.db" #used to reference data.db later
@@ -15,6 +16,7 @@ def main():
             j[1] = dbEntry[2]
             importDuplicate = True
             break
+            
         if not importDuplicate:
           dbValues.append([dbEntry[1], dbEntry[2]]) #dbEntry[0] is SET, so following key value pairs and index 1 and 2 is appended to dbValues
   
@@ -63,9 +65,11 @@ def main():
         if i[0] == key:
           foundValue = (i[1])
       if foundValue == "":
-        print("No such value found in database")
+        print("NULL")
       else:
         print(foundValue)
+        
+    sys.stdout.flush()
           
 
 if __name__ == "__main__":
