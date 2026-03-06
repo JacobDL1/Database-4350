@@ -66,7 +66,7 @@ def main():
       print("OK") #confirmation of SET command's success
     
     elif (get): #if user used GET, key is searched for in dbValues and returned if found
-      key = words[1]
+      key = words[1].strip()
       foundValue = ""
       
       for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
