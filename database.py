@@ -40,6 +40,7 @@ def getKeyValue(dbValues, key):
   for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
     if i[0] == key:
       print(i[1])
+      sys.stdout.flush()
       return
 
 def main():
