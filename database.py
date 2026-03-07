@@ -41,7 +41,6 @@ def getKeyValue(dbValues, key):
     if i[0] == key:
       print(i[1])
       return
-  print("NULL") #catches missing keys
 
 def main():
   """main loop for taking in user input and calling the necessary functions to respond"""
