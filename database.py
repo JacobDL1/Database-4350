@@ -30,7 +30,6 @@ def setKeyValue(dbValues, key, value):
         f.write(f"SET {key} {value}\n")
         f.flush() #used for making sure SET is complete by the time GET is used for gradebot
         os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
-    print("OK") #confirmation of SET command's success
 
 def getKeyValue(dbValues, key):
     """searches for user-proivded key in dbValues"""
