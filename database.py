@@ -1,6 +1,5 @@
 import os #used for os.path.exists method that updates dbValues to have all entries data.db does
 import sys #used for sys.stoud.flush(), addressed gradebot issue
-import time #used for ensuring a clean data.db file
 
 file = "data.db" #used to reference data.db later
 
@@ -48,11 +47,6 @@ def getKeyValue(dbValues, key):
 
 def main():
   """main loop for taking in user input and calling the necessary functions to respond"""
-  if os.path.exists(file): #addressing issue of old data.db values being used despite the file being gone 
-    fileAge = time.time() - os.path.getmtime(file)
-    if fileAge > 5: #if the file is older than 10 seconds, it needs to be reset
-      os.remove(file)
-  
   dbValues = [] #stores all set command key value pairs for faster searching when using get
   loadDB(dbValues)
   
