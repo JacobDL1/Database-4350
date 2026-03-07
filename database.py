@@ -6,7 +6,7 @@ file = "data.db" #used to reference data.db later
 def loadDB(dbValues):
   """reads from data.db and takes any infromation present and uses it to rebuild the in-memory index (dbValues)"""
   if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
-    with open(file, "r") as f:
+    with open(file, "r", newline='') as f:
       for i in f:
         dbEntry = i.strip().replace('\r', '').split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
 
@@ -29,7 +29,7 @@ def setKeyValue(dbValues, key, value):
   """if the user types SET, stores following two terms as a key value pair in both dbValues and data.db"""
   duplicateCheck(dbValues, key, value)
   
-  with open(file, "a") as f: #opens and writes to data.db
+  with open(file, "a", newline='') as f: #opens and writes to data.db
     f.write(f"SET {key} {value}\n")
     f.flush() #used for making sure SET is complete by the time GET is used for gradebot
     os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
