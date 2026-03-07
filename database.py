@@ -5,6 +5,7 @@ file = "data.db" #used to reference data.db later
 
 def loadDB(dbValues):
     """reads from data.db and takes any infromation present and uses it to rebuild the in-memory index (dbValues)"""
+    dbValues.clear()
     if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
         with open(file, "r", encoding="utf-8") as f: #opens using utf-8 encoding to parse file properly
             for i in f:
@@ -33,7 +34,6 @@ def setKeyValue(dbValues, key, value):
 
 def getKeyValue(dbValues, key):
     """compares user-dictated key against the keys in dbValues, clears and reloads dbValues right before checking to ensure all entries are present"""
-    dbValues.clear()
     loadDB(dbValues)
     for i in dbValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
         if i[0] == key:
@@ -47,15 +47,18 @@ def main():
     """main loop for taking in user input and calling the necessary functions to respond"""
     dbValues = [] #stores all set command key value pairs for faster searching when using get
     loadDB(dbValues)
-    while True: #continues looping until broken allowing for contuninous input
-        try:
-            userInput = input().strip().replace('\r', '') #removes leading and trailing whitespace, and deletes any \r
-        except EOFError:
-            break
 
-        if not userInput: #skips blank lines
+    while True: #continues looping until broken allowing for contuninous input
+        userInput = sys.stdin.buffer.readline() #removes leading and trailing whitespace, and deletes any \r
+
+        if not userInput: #EOF detection
+            break
+        userInput = userInput.decode("utf-8", errors = "replace").strip().replace("\r", "") #decodes user input
+
+        if not userInput: #skip blank lines
             continue
         words = userInput.split(maxsplit=2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
+
         if words[0].upper() == "SET" and len(words) >=3: #upper makes user input case insensitive, words is at least 3 words because that covers the command, key, and the value, where the value can include its own spaces
             setKeyValue(dbValues, words[1], words[2])
         elif words[0].upper() == "GET" and len(words) >=2: #at least 2 since there needs to be the command and the key
