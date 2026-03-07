@@ -32,7 +32,9 @@ def setKeyValue(dbValues, key, value):
         os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
 
 def getKeyValue(dbValues, key):
-    """compares user-dictated key against the keys in dbValues"""
+    """compares user-dictated key against the keys in dbValues, clears and reloads dbValues right before checking to ensure all entries are present"""
+    dbValues.clear()
+    loadDB(dbValues)
     for i in dbValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
         if i[0] == key:
             print(i[1])
@@ -50,7 +52,7 @@ def main():
             userInput = input().strip().replace('\r', '') #removes leading and trailing whitespace, and deletes any \r
         except EOFError:
             break
-        
+
         if not userInput: #skips blank lines
             continue
         words = userInput.split(maxsplit=2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
