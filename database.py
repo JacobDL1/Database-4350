@@ -63,10 +63,10 @@ def main():
       continue
     words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     
-    if words[0].upper() == "SET": #upper is used to make sure if people type any command in lowercase the program still recognizes the intent of the user
-      setKeyValue(dbValues, words[1].strip().replace('\r', ''), words[2].strip().replace('\r', ''))
-    elif words[0].upper() == "GET":
-      getKeyValue(dbValues, words[1].strip().replace('\r', ''))
+    if words[0].upper() == "SET" and len(words) >=3: #upper is used to make sure if people type any command in lowercase the program still recognizes the intent of the user, at least 3 words because that covers the command, key, and the value, where the value can include its own spaces
+      setKeyValue(dbValues, words[1], words[2])
+    elif words[0].upper() == "GET" and len(words) >=2: #at least 2 since there needs to be the command and the key
+      getKeyValue(dbValues, words[1])
     elif words[0].upper() == "EXIT":
       break
       
