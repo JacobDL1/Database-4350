@@ -6,9 +6,9 @@ file = "data.db" #used to reference data.db later
 def loadDB(dbValues):
     """reads from data.db and takes any infromation present and uses it to rebuild the in-memory index (dbValues)"""
     if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
-        with open(file, "rb") as f: #use rb to force reading in binary to fix gradebot issues
+        with open(file, "r", encoding="utf-8") as f: #opens using utf-8 encoding to parse file properly
             for i in f:
-                dbEntry = i.decode('utf-8', errors='replace').strip().replace('\r', '').split(maxsplit=2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits, use decode on i to make python accurately interpret text for compatibility with the grader
+                dbEntry = i.strip().replace('\r', '').split(maxsplit=2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits, use decode on i to make python accurately interpret text for compatibility with the grader
                 if len(dbEntry) < 3 or dbEntry[0] != "SET": #skip empty or miswritten lines from gradebot
                     continue
                 key = dbEntry[1]
@@ -26,16 +26,14 @@ def duplicateCheck(dbValues, key, value):
 def setKeyValue(dbValues, key, value):
     """if the user types SET, stores following two terms as a key value pair in both dbValues and data.db"""
     duplicateCheck(dbValues, key, value)
-    with open(file, "a") as f: #opens and writes to data.db
+    with open(file, "a", encoding="utf-8") as f: #opens and writes to data.db, opens using utf-8 encoding to parse file properly
         f.write(f"SET {key} {value}\n")
         f.flush() #used for making sure SET is complete by the time GET is used for gradebot
         os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
 
 def getKeyValue(dbValues, key):
-    """reads data.db before GET to ensure corerct value is returned, using dbValues caused issues with auto grader"""
-    currValues = []
-    loadDB(currValues)
-    for i in currValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
+    """compares user-dictated key against the keys in dbValues"""
+    for i in dbValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
         if i[0] == key:
             print(i[1])
             sys.stdout.flush()
