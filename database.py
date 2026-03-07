@@ -47,12 +47,10 @@ def main():
     loadDB(dbValues)
     while True: #continues looping until broken allowing for contuninous input
         try:
-            rawInput = sys.stdin.buffer.readline()
-        except Exception as e:
+            userInput = input().strip().replace('\r', '') #removes leading and trailing whitespace, and deletes any \r
+        except EOFError:
             break
-        if not rawInput: #skips blank lines
-            break
-        userInput = rawInput.decode('utf-8', errors='replace').strip().replace('\r', '') #removes leading/trailing spaces for accurate indexing, use decode on raw input to make python accurately interpret text for compatibility with the grader
+        
         if not userInput: #skips blank lines
             continue
         words = userInput.split(maxsplit=2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
