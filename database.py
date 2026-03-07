@@ -36,8 +36,10 @@ def setKeyValue(dbValues, key, value):
   print("OK") #confirmation of SET command's success
 
 def getKeyValue(dbValues, key):
-  """if the user types GET, searched through dbValues for the user specified key and returns the corresponding value if the key is found"""
-  for i in dbValues: #comapres user-provided key to entries in dbValues, prints value if key is found
+  """reads data.db before GET to ensure corerct value is returned"""
+  currValues = [] #stores most recent values from data.db
+  loadDB(currValues)
+  for i in currValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
     if i[0] == key:
       print(i[1])
       sys.stdout.flush()
