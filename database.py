@@ -32,8 +32,10 @@ def setKeyValue(dbValues, key, value):
         os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
 
 def getKeyValue(dbValues, key):
-    """searches for user-proivded key in dbValues"""
-    for i in dbValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
+    """reads data.db before GET to ensure corerct value is returned, using dbValues caused issues with auto grader"""
+    currValues = []
+    loadDB(currValues)
+    for i in currValues: #comapres user-provided key to entries in currValues, prints value if key is found, used because relying on dbValues created errors with grader
         if i[0] == key:
             print(i[1])
             sys.stdout.flush()
