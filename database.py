@@ -50,7 +50,7 @@ def main():
   """main loop for taking in user input and calling the necessary functions to respond"""
   if os.path.exists(file): #addressing issue of old data.db values being used despite the file being gone 
     fileAge = time.time() - os.path.getmtime(file)
-    if fileAge > 2: #if the file is older than 10 seconds, it needs to be reset
+    if fileAge > 5: #if the file is older than 10 seconds, it needs to be reset
       os.remove(file)
   
   dbValues = [] #stores all set command key value pairs for faster searching when using get
