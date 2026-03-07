@@ -52,11 +52,15 @@ def main():
   
   while True: #continues looping until broken allowing for contuninous input
     try:
-      userInput = input()
-    except EOFError:
+      rawInput = sys.stdin.buffer.readline()
+    except Exception as e:
+      break
+    if not rawInput: #skips blank lines
       break
       
-    userInput = userInput.strip().replace('\r', '') #removes leading/trailing spaces for accurate indexing
+    userInput = rawInput.decode('utf-8', errors='replace').strip().replace('\r', '') #removes leading/trailing spaces for accurate indexing, use decode on raw input to make python accurately interpret text for compatibility with the grader
+    if not userInput: #skips blank lines
+      continue
     words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     
     if words[0].upper() == "SET": #upper is used to make sure if people type any command in lowercase the program still recognizes the intent of the user
