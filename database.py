@@ -6,9 +6,9 @@ file = "data.db" #used to reference data.db later
 def loadDB(dbValues):
   """reads from data.db and takes any infromation present and uses it to rebuild the in-memory index (dbValues)"""
   if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
-    with open(file, "r", newline='') as f:
+    with open(file, "rb") as f: #use rb to force reading in binary to fix gradebot issues
       for i in f:
-        dbEntry = i.strip().replace('\r', '').split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
+        dbEntry = i.decode('utf-8', errors='replace').strip().replace('\r', '').split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits, use decode on i to make python accurately interpret text for compatibility with the grader
 
         if len(dbEntry) < 3: #skip empty or miswritten lines from gradebot
           continue
