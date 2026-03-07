@@ -8,7 +8,7 @@ def loadDB(dbValues):
   if os.path.exists(file): #if data.db exists, each line is read, and the key value pair is appended to dbValues
     with open(file, "r") as f:
       for i in f:
-        dbEntry = i.strip().split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
+        dbEntry = i.strip().replace('\r', '').split(" ", 2) #removes leading and trailing spaces, then splits the entry based on spaces, with a max of two splits
 
         if len(dbEntry) < 3: #skip empty or miswritten lines from gradebot
           continue
@@ -54,13 +54,13 @@ def main():
     except EOFError:
       break
       
-    userInput = userInput.strip() #removes leading/trailing spaces for accurate indexing
+    userInput = userInput.strip().replace('\r', '') #removes leading/trailing spaces for accurate indexing
     words = userInput.split(" ", 2) #splits userInput into its individual words, maxes out at two splits to make sure users can enter values that have spaces
     
     if words[0].upper() == "SET": #upper is used to make sure if people type any command in lowercase the program still recognizes the intent of the user
-      setKeyValue(dbValues, words[1].strip(), words[2].strip())
+      setKeyValue(dbValues, words[1].strip().replace('\r', ''), words[2].strip().replace('\r', ''))
     elif words[0].upper() == "GET":
-      getKeyValue(dbValues, words[1].strip())
+      getKeyValue(dbValues, words[1].strip().replace('\r', ''))
     elif words[0].upper() == "EXIT":
       break
       
