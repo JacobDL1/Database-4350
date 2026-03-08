@@ -16,8 +16,8 @@ def loadDB(dbValues):
                     key = dbEntry[1]
                     value = dbEntry[2]
                     duplicateCheck(dbValues, key, value)
-        except OSError: #error handling incase file opening fails
-            pass
+        except OSError as e: #error handling incase file opening fails
+            print(f"Error when reading database: {e}", file=sys.stderr)
 
 def duplicateCheck(dbValues, key, value):
     """Updates key's value if there is a duplicate key in dbValues, if there is no duplication, key-value pair is appended"""
@@ -36,8 +36,8 @@ def setKeyValue(dbValues, key, value):
             f.write(f"SET {key} {value}\n")
             f.flush() #used for making sure SET is complete by the time GET is used for gradebot
             os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
-    except OSError: #error handling incase file opening fails
-        pass
+    except OSError as e: #error handling incase file opening fails
+        print(f"Error when writing database: {e}", file=sys.stderr)
 
 def getKeyValue(dbValues, key):
     """compares user-dictated key against the keys in dbValues, clears and reloads dbValues right before checking to ensure all entries are present"""
