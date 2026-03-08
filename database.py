@@ -1,3 +1,10 @@
+"""
+Program that allows user to use SET commands to append data to a file for persistent storage.
+Program also allow use of GET to retrieve a value based on user-provided key, and the use of an EXIT command.
+
+Made by: Jacob Lamb, 11723480
+"""
+
 import os #used for os.path.exists()
 import sys #used for sys.stdout.flush()
 
@@ -17,7 +24,7 @@ def loadDB(dbValues: list) -> None:
                     value = dbEntry[2]
                     duplicateCheck(dbValues, key, value)
         except OSError as e: #error handling incase file opening fails
-            print(f"Error when reading database: {e}", file=sys.stderr)
+            raise OSError(f"Error when reading from database: {e}") from e
 
 def duplicateCheck(dbValues: list, key: str, value: str) -> None:
     """Appends new entry or updates existing key, uses last write wins"""
@@ -37,7 +44,7 @@ def setKeyValue(dbValues: list, key: str, value: str) -> None:
             f.flush() #used for making sure SET is complete by the time GET is used for gradebot
             os.fsync(f.fileno()) #used for making sure SET is complete by the time GET is used for gradebot
     except OSError as e: #error handling incase file opening fails
-        print(f"Error when writing database: {e}", file=sys.stderr)
+        raise OSError(f"Error when writing to database: {e}") from e
 
 def getKeyValue(dbValues: list, key: str) -> None:
     """Update dbValues for accuracy, then print value of key"""
@@ -45,10 +52,10 @@ def getKeyValue(dbValues: list, key: str) -> None:
     for entry in dbValues: #comapres key to keys in currValues, prints associated value if found
         if entry[0] == key:
             print(entry[1])
-            sys.stdout.flush()
+            sys.stdout.flush() #sends output to gradebot immediately to ensure it receives response in time
             return
     print("")
-    sys.stdout.flush()
+    sys.stdout.flush() #sends output to gradebot immediately to ensure it receives response in time
 
 def main() -> None:
     """Loops to take user input, calls necessary functions to respond"""
@@ -73,6 +80,6 @@ def main() -> None:
         elif words[0].upper() == "EXIT":
             break
         sys.stdout.flush()
-                    
+
 if __name__ == "__main__":
     main()
