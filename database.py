@@ -9,6 +9,9 @@ import os #used for os.path.exists()
 import sys #used for sys.stdout.flush()
 
 FILE = "data.db"
+SET = "SET"
+GET = "GET"
+EXIT = "EXIT"
 
 def loadDB(dbValues: list) -> None:
     """Uses data.db to rebuild dbValues for memory persistence"""
@@ -18,7 +21,7 @@ def loadDB(dbValues: list) -> None:
             with open(FILE, "r", encoding="utf-8") as f: #opens using utf-8 encoding to parse file properly
                 for line in f:
                     dbEntry = line.strip().replace('\r', '').split(maxsplit=2) #strip and split at most 2 times, replace all '\r' with nothing
-                    if len(dbEntry) < 3 or dbEntry[0] != "SET": #skip empty or miswritten lines
+                    if len(dbEntry) < 3 or dbEntry[0] != SET: #skip empty or miswritten lines
                         continue
                     key = dbEntry[1]
                     value = dbEntry[2]
@@ -46,16 +49,13 @@ def setKeyValue(dbValues: list, key: str, value: str) -> None:
     except OSError as e: #error handling incase file opening fails
         raise OSError(f"Error when writing to database: {e}") from e
 
-def getKeyValue(dbValues: list, key: str) -> None:
+def getKeyValue(dbValues: list, key: str) -> str:
     """Update dbValues for accuracy, then print value of key"""
     loadDB(dbValues)
     for entry in dbValues: #comapres key to keys in currValues, prints associated value if found
         if entry[0] == key:
-            print(entry[1])
-            sys.stdout.flush() #sends output to gradebot immediately to ensure it receives response in time
-            return
-    print("")
-    sys.stdout.flush() #sends output to gradebot immediately to ensure it receives response in time
+            return entry[1]
+    return ""
 
 def main() -> None:
     """Loops to take user input, calls necessary functions to respond"""
@@ -71,15 +71,18 @@ def main() -> None:
 
         if not userInput: #skip blank lines
             continue
-        words = userInput.split(maxsplit=2) #split at most 2 times
 
-        if words[0].upper() == "SET" and len(words) >= 3: #use upper so input is case insensitive, make sure there aren't too many arguements
+        words = userInput.split(maxsplit=2) #split at most 2 times
+        CMD = words[0].upper() #stores what command user entered
+
+        if CMD == SET and len(words) >= 3: #use upper so input is case insensitive, make sure there aren't too many arguements
             setKeyValue(dbValues, words[1], words[2])
-        elif words[0].upper() == "GET" and len(words) >= 2:
-            getKeyValue(dbValues, words[1])
-        elif words[0].upper() == "EXIT":
+        elif CMD == GET and len(words) >= 2:
+            getResult = getKeyValue(dbValues, words[1])
+            print(getResult)
+        elif CMD == EXIT:
             break
-        sys.stdout.flush()
+        sys.stdout.flush() #sends output to gradebot immediately to ensure it receives response in time
 
 if __name__ == "__main__":
     main()
